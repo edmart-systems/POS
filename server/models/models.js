@@ -3,10 +3,10 @@ const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = new Sequelize({
   dialect: "mysql",
   dialectModule: require("mysql2"),
-  host: "localhost",
-  database: "ed_pos",
-  username: "root",
-  password: "",
+  host: process.env.HOST,
+  database: process.env.DATABASE_NAME,
+  username: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
 });
 // user model
 const User = sequelize.define(

@@ -30,21 +30,18 @@ router.post("/account", async (req, res) => {
             where: { email: email },
           });
           if (!existingUser) {
-            if (original_password === password) {
-              //procced and register user
-              const newUser = await User.create({
-                email,
-                password: hashed_password,
-                contact,
-                bss_name,
-              });
-              res.json({
-                status: true,
-                data: "User registered successfully",
-                user: newUser,
-              });
-            } else {
-            }
+            //procced and register user
+            const newUser = await User.create({
+              email,
+              password: hashed_password,
+              contact,
+              bss_name,
+            });
+            res.json({
+              status: true,
+              data: "User registered successfully",
+              user: newUser,
+            });
           } else {
             res.json({
               status: false,
@@ -190,19 +187,6 @@ router.post("/refresh", tokenRefresh, (req, res) => {
     message: "Access token refreshed.",
     accessToken: req.accessToken,
   });
-});
-
-// Protected route using the verifyToken middleware
-//this route may not be used. it demonstrates how protected routes can be written.
-router.get("/protected", verifyToken, (req, res) => {
-  // The verifyToken middleware has already verified the token and attached user information to req.user
-  const user = req.user;
-
-  if (user.role === "admin") {
-    res.json({ message: "Admin route accessed.", user });
-  } else {
-    res.json({ message: "User route accessed.", user });
-  }
 });
 
 //route for getting all admins
