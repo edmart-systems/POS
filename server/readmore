@@ -1,0 +1,6 @@
+Please Ignore other models except the business model and user model
+All business routes shall be put in api/businesses
+Other login and auth routes shall be put in api/auth
+
+routing format
+api/.....router..... eg api/account, api/business

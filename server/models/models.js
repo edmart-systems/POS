@@ -8,34 +8,73 @@ const sequelize = new Sequelize({
   username: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
 });
+
+//business
+const Business = sequelize.define(
+  "businesses",
+  {
+    bss_name: {
+      type: DataTypes.STRING,
+    },
+
+    bss_email: {
+      type: DataTypes.STRING,
+    },
+    bss_password: {
+      type: DataTypes.STRING,
+    },
+    bss_contact: {
+      type: DataTypes.STRING,
+    },
+    bss_country: {
+      type: DataTypes.INTEGER,
+    },
+    fy_start: {
+      type: DataTypes.DATE,
+    },
+    fy_end: {
+      type: DataTypes.DATE,
+    },
+    industry: {
+      type: DataTypes.INTEGER,
+    },
+    bss_logo: {
+      type: DataTypes.STRING,
+    },
+    address_1: {
+      type: DataTypes.STRING,
+    },
+    address_2: {
+      type: DataTypes.STRING,
+    },
+  },
+  { tableName: "businesses" }
+);
 // user model
 const User = sequelize.define(
   "users",
   {
-    user_id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    email: {
-      type: DataTypes.STRING,
-      unique: true,
-
-      // unique: true,
-    },
-    password: {
-      type: DataTypes.STRING,
-    },
-    contact: {
-      type: DataTypes.STRING,
+    bss_id: {
+      type: DataTypes.NUMBER,
     },
     bss_name: {
       type: DataTypes.STRING,
     },
-    role: {
+    first_name: {
       type: DataTypes.STRING,
-      enum: ["user", "admin"],
-      defaultValue: "admin",
+    },
+    last_name: {
+      type: DataTypes.STRING,
+    },
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+    },
+    user_img: {
+      type: DataTypes.STRING,
     },
   },
   {
@@ -210,37 +249,7 @@ const Brand = sequelize.define(
   },
   { tableName: "brand" }
 );
-//business
-const Business = sequelize.define(
-  "businesses",
-  {
-    unit_id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    first_name: {
-      type: DataTypes.STRING,
-    },
 
-    last_name: {
-      type: DataTypes.STRING,
-    },
-    city: {
-      type: DataTypes.STRING,
-    },
-    contact: {
-      type: DataTypes.STRING,
-    },
-    employee_no: {
-      type: DataTypes.INTEGER,
-    },
-    logo: {
-      type: DataTypes.STRING,
-    },
-  },
-  { tableName: "businesses" }
-);
 //category
 const Category = sequelize.define(
   "category",

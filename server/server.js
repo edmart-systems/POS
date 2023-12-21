@@ -17,6 +17,7 @@ server.get("/", (req, res) => {
 
 // server routes
 server.use("/api/", require("./api/auth"));
+server.use("/api/", require("./api/business"));
 
 //database connection
 connect();
