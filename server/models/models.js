@@ -75,10 +75,10 @@ const User = sequelize.define(
     },
     user_img: {
       type: DataTypes.STRING,
+      defaultValue: null,
     },
   },
   {
-    // timestamps: false,
     tableName: "users",
   }
 );

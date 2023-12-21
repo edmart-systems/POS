@@ -10,36 +10,45 @@ const {
   tokenRefresh,
 } = require("../config/config");
 
-//Creating an account
-router.post("/account", async (req, res) => {
-  const { email, bss_name, password, contact } = req.body;
+//Creating a user
+router.post("/user", async (req, res) => {
+  const {
+    bss_id,
+    bss_name,
+    email,
+    first_name,
+    last_name,
+    user_img,
+    password,
+    contact,
+  } = req.body;
   if (verifyEmail(email)) {
-    if (verifyPassword(password)) {
-      if (verifyPhoneNumber(contact)) {
+    if (verifyPhoneNumber(contact)) {
+      if (verifyPassword(password)) {
         try {
-          const hashed_password = cryptoJs.AES.encrypt(
+          const hash_password = cryptoJs.AES.encrypt(
             password,
             process.env.PARSE_SECRET
           ).toString();
-          const original_password = cryptoJs.AES.decrypt(
-            hashed_password,
-            process.env.PARSE_SECRET
-          ).toString(cryptoJs.enc.Utf8);
           // Check if the user with the provided email already exists
           const existingUser = await User.findOne({
-            where: { email: email },
+            where: { email: email, bss_id: bss_id }, //is the bss_id neccessary??? I will start from reasoning here...
           });
           if (!existingUser) {
             //procced and register user
             const newUser = await User.create({
               email,
-              password: hashed_password,
-              contact,
+              first_name,
+              last_name,
+              bss_id,
               bss_name,
+              password: hash_password,
+              contact,
+              user_img,
             });
             res.json({
               status: true,
-              data: "User registered successfully",
+              data: "User created",
               user: newUser,
             });
           } else {
@@ -52,7 +61,7 @@ router.post("/account", async (req, res) => {
           console.error(error);
           res.status(500).json({
             status: false,
-            data: "An error occurred while registering the user",
+            data: "An error occurred while creating a user",
           });
         }
       } else {
@@ -75,8 +84,8 @@ router.post("/account", async (req, res) => {
   }
 });
 
-//login .....for both user & admin
-router.post("/login", async (req, res) => {
+//login a user
+router.post("/login/user", async (req, res) => {
   const { email, password } = req.body;
   //email validation
   if (verifyEmail(email)) {
